@@ -7,6 +7,6 @@ Rails.application.routes.draw do
 
   # get "/books" => "books#index" #controller#endpoint
   # resources :books #generate 7 RESTful resources
-  resources :books, only: :index
+  resources :books, only: [:index, :create]
 
 end
