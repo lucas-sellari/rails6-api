@@ -1,0 +1,3 @@
+class Book < ApplicationRecord
+  # ORM layer which maps book to a DB table with the active records methods...
+end
