@@ -17,6 +17,12 @@ class BooksController < ApplicationController
     end
   end
 
+  def destroy
+    Book.find(params[:id]).destroy!
+
+    head :no_content #204 in the head of the response
+  end
+
   private
   # required params
   def book_params
