@@ -3,4 +3,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  # get "/books" => "books#index" #controller#endpoint
+  # resources :books #generate 7 RESTful resources
+  resources :books, only: :index
+
 end
