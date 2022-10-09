@@ -7,6 +7,11 @@ Rails.application.routes.draw do
 
   # get "/books" => "books#index" #controller#endpoint
   # resources :books #generate 7 RESTful resources
-  resources :books, only: [:index, :create, :destroy]
+
+  namespace :api do
+    namespace :v1 do
+      resources :books, only: [:index, :create, :destroy]
+    end
+  end
 
 end
