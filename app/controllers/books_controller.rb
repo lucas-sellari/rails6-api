@@ -1,5 +1,8 @@
 class BooksController < ApplicationController
   # BooksController inherits from ApplicationController
+
+  # rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
+
   def index #action
     render json: Book.all # Book: active record MODEL
   end
@@ -18,9 +21,13 @@ class BooksController < ApplicationController
   end
 
   def destroy
-    Book.find(params[:id]).destroy!
+    Book.find(params[:id]).destroy! # record not destroyed can be raised
 
     head :no_content #204 in the head of the response
+
+  # it has some disadvantages to write in this way
+  # rescue ActiveRecord::RecordNotDestroyed
+  #   render json: {}, status: :unprocessable_entity
   end
 
   private
@@ -28,5 +35,9 @@ class BooksController < ApplicationController
   def book_params
     params.required(:book).permit(:title, :author)
   end
+
+  # def not_destroyed
+  #   render json: {}, status: :unprocessable_entity
+  # end
 
 end
