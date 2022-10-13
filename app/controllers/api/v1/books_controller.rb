@@ -7,7 +7,9 @@ module Api
       # rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
 
       def index #action
-        render json: Book.all # Book: active record MODEL
+        # render json: Book.all # Book: active record MODEL
+        books = Book.all
+        render json: BooksRepresenter.new(books).as_json
       end
 
       def create #POST
