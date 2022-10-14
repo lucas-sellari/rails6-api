@@ -19,10 +19,14 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
     it "creates a new book" do
       # rspec method to check if the DB count changes
       expect {
-        post "/api/v1/books", params: { book: { title: "The Martian", author: "Andy Weir" } }
+        post "/api/v1/books", params: {
+          book: { title: "The Martian" },
+          author: { first_name: "Andy", last_name: "Weir", age: "33" }
+        }
       }.to change { Book.count }.from(0).to(1)
 
       expect(response).to have_http_status(:created)
+      expect(Author.count).to eq(1)
     end
   end
 

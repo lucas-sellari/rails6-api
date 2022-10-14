@@ -13,10 +13,12 @@ module Api
       end
 
       def create #POST
+        author = Author.create!(author_params)
         # Book.create(title: "...", author: "...") create a Book in DB, but it does not handle the cases of work and does not work...
         # book = Book.new(title: params[:title], author: params[:author]) #initialzie the record, but not save to DB
+        # binding.irb # rails built in breakpoint
 
-        book = Book.new(book_params)
+        book = Book.new(book_params.merge(author_id: author.id))
 
         if book.save # all rails validations on Book model get called
           render json: book, status: :created #201
@@ -38,7 +40,11 @@ module Api
       private
       # required params
       def book_params
-        params.required(:book).permit(:title, :author)
+        params.required(:book).permit(:title)
+      end
+
+      def author_params
+        params.required(:author).permit(:first_name, :last_name, :age)
       end
 
       # def not_destroyed
