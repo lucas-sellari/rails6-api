@@ -14,8 +14,8 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
       get "/api/v1/books"
 
       expect(response).to have_http_status(:success) #200, but it does not check if there are any books being returned
-      expect(JSON.parse(response.body).size).to eq(2)
-      expect(JSON.parse(response.body)).to eq([
+      expect(response_body.size).to eq(2)
+      expect(response_body).to eq([
         {
           "id" => 1,
           "title" => "1984",
@@ -44,7 +44,7 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
 
       expect(response).to have_http_status(:created)
       expect(Author.count).to eq(1)
-      expect(JSON.parse(response.body)).to eq({
+      expect(response_body).to eq({
         "id" => 1,
         "title" => "The Martian",
         "author_name" => "Andy Weir",
