@@ -27,6 +27,12 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
 
       expect(response).to have_http_status(:created)
       expect(Author.count).to eq(1)
+      expect(JSON.parse(response.body)).to eq({
+        "id" => 1,
+        "title" => "The Martian",
+        "author_name" => "Andy Weir",
+        "author_age" => 33
+      })
     end
   end
 
