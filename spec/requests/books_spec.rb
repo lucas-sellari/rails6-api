@@ -3,6 +3,7 @@ require "rails_helper" # for every spec
 describe "Books API", type: :request do #contains all the tests  for the book api
   let(:first_author) { FactoryBot.create(:author, first_name: "George", last_name: "Orwell", age: "44") }
   let(:second_author) { FactoryBot.create(:author, first_name: "J.K.", last_name: "Rowling", age: "79") }
+
   describe "GET /books" do
     before do # it runs before every test inside this describe block
       FactoryBot.create(:book, title: "1984", author: first_author)
@@ -14,6 +15,20 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
 
       expect(response).to have_http_status(:success) #200, but it does not check if there are any books being returned
       expect(JSON.parse(response.body).size).to eq(2)
+      expect(JSON.parse(response.body)).to eq([
+        {
+          "id" => 1,
+          "title" => "1984",
+          "author_name" => "George Orwell",
+          "author_age" => 44
+        },
+        {
+          "id" => 2,
+          "title" => "Harry Potter",
+          "author_name" => "J.K. Rowling",
+          "author_age" => 79
+        }
+      ])
     end
   end
 
