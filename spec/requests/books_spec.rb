@@ -1,10 +1,12 @@
 require "rails_helper" # for every spec
 
 describe "Books API", type: :request do #contains all the tests  for the book api
+  let(:first_author) { FactoryBot.create(:author, first_name: "George", last_name: "Orwell", age: "44") }
+  let(:second_author) { FactoryBot.create(:author, first_name: "J.K.", last_name: "Rowling", age: "79") }
   describe "GET /books" do
     before do # it runs before every test inside this describe block
-      FactoryBot.create(:book, title: "1984", author: "George Orwell")
-      FactoryBot.create(:book, title: "Harry Potter", author: "J.K. Rowling")
+      FactoryBot.create(:book, title: "1984", author: first_author)
+      FactoryBot.create(:book, title: "Harry Potter", author: second_author)
     end
 
     it "returns all books" do #it block for specific test
@@ -37,7 +39,7 @@ describe "Books API", type: :request do #contains all the tests  for the book ap
   end
 
   describe "DELETE /books/:id" do
-    let!(:book) { FactoryBot.create(:book, title: "1984", author: "George Orwell") } # from rspec, it is lazy loaded, only get called when we use book.id, unless we use !
+    let!(:book) { FactoryBot.create(:book, title: "1984", author: first_author) } # from rspec, it is lazy loaded, only get called when we use book.id, unless we use !
     it "deletes a book" do
       expect {
         delete "/api/v1/books/#{book.id}"
