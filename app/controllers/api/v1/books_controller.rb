@@ -2,13 +2,14 @@ module Api
   module V1
 
     class BooksController < ApplicationController
+      MAX_PAGINATION_LIMIT = 100
       # BooksController inherits from ApplicationController
 
       # rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
 
       def index #action
         # render json: Book.all # Book: active record MODEL
-        books = Book.all
+        books = Book.limit(limit).offset(params[:offset])
         render json: BooksRepresenter.new(books).as_json
       end
 
@@ -45,6 +46,13 @@ module Api
 
       def author_params
         params.required(:author).permit(:first_name, :last_name, :age)
+      end
+
+      def limit
+        [
+          params.fetch(:limit, MAX_PAGINATION_LIMIT).to_i, #default is 100
+          MAX_PAGINATION_LIMIT
+        ].min
       end
 
       # def not_destroyed
