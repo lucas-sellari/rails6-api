@@ -1,3 +1,5 @@
+# require "net/http"
+
 module Api
   module V1
 
@@ -20,6 +22,19 @@ module Api
         # binding.irb # rails built in breakpoint
 
         book = Book.new(book_params.merge(author_id: author.id))
+
+        # moved to the active job class
+        # uri = URI("http://localhost:4567/update_sku") # API with response delay
+        # req = Net::HTTP::Post.new(uri, "Content-Type" => "application/json")
+        # req.body = { sku: "123", title: book_params[:title] }.to_json
+        # res = Net::HTTP.start(uri.hostname, uri.port) do |http|
+        #   http.request(req)
+        # end
+
+        # raise "exit"
+
+        UpdateSkuJob.perform_later(book_params[:title])
+
 
         if book.save # all rails validations on Book model get called
           render json: BookRepresenter.new(book).as_json, status: :created #201
